@@ -12,6 +12,8 @@ const useLogin = () =>{
     const{setAuthUser}=useAuthContext()
 
     const login = async (userName, password) => {
+        const success = handleInputErrors(userName, password);
+        if (!success) return;
         setLoading(true);   
         try {
             const res = await fetch('/api/auth/login', {
@@ -41,3 +43,11 @@ const useLogin = () =>{
 }
 
 export default useLogin;
+
+function handleInputErrors(userName, password) {
+    if (!userName || !password) {
+        toast.error('Please fill in all fields');
+        return false;
+    }
+    return true;
+}
